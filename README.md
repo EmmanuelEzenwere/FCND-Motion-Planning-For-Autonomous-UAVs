@@ -18,8 +18,18 @@ Unlike the backyard_flyer_solution.py code which restricts the trajectory/ waypo
 
 Also for the backyard_flyer_solution, the box trajectory is made after take_off transition while in the motion_planning.py the path is created immediately after the arming transition before take_off.
 ![backyard flyer state callback def](./misc/backyard_flyer_solution.py state_callback definition.png)
-![motion planning state callback def](./misc/motion_planning.py  state callback definition.png)
-
+```
+    def state_callback(self):
+        if self.in_mission:
+            if self.flight_state == States.MANUAL:
+                self.arming_transition()
+            elif self.flight_state == States.ARMING:
+                if self.armed:
+                    self.takeoff_transition()
+            elif self.flight_state == States.DISARMING:
+                if ~self.armed & ~self.guided:
+                    self.manual_transition()
+```
 #### Set Home Position for Quadcopter
 
 I wrote code to read the first line of the colliders.csv file to extract lat0 and lon0 as floating point values then I used the self.set_home_position() method to set our global home position to be the obtained lat0, lon0 and default alt = 0 values.
