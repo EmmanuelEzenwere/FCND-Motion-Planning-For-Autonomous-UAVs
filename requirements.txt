@@ -1,0 +1,11 @@
+msgpack
+sklearn
+shapely
+numpy
+networkx==2.1
+argparse
+time
+udacidrone
+sklearn
+shapely
+queue
